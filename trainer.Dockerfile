@@ -16,8 +16,11 @@ RUN useradd -g ${group} ${user} -m
 RUN chown -R ${user}:${group} /home/${user}
 
 COPY data home/appuser/data
+COPY models home/appuser/models
 COPY tfidf_encodeur.ipynb home/appuser
 COPY requirements.txt home/appuser
+
+RUN chown -R ${user}:${group} /home/${user}/models
 
 # Add the user bin path in global PATH
 ENV PATH="/home/${user}/.local/bin/:${PATH}"

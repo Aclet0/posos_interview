@@ -16,7 +16,7 @@ def build_wv_query(query, wv_model):
 
 def get_prepared_query(query):
     prepared_query = re.sub(",|-|'|\.|\?", " ", str(query)).split(" ")
-    return prepared_query
+    return [prepared_query]
 
 
 def get_vector_list(sentence_splited_list, w2v_model):
@@ -35,26 +35,33 @@ def get_vector_list(sentence_splited_list, w2v_model):
             vector_list.append(mean_vect)
     return vector_list, empty_vector_list
 
-
 @app.route("/")
-def home2(**kwargs):
+def home():
+    print("hello world")
+    return "hellllloo"
+
+@app.route("/test")
+def home2():
     #here i need to get the sentence
+    print("home")
     query_to_test = request.args.get("query", {})
     # pretraitement on sentence and convert into vect
-    filename_wv = '../word2vec_model.sav'
+    filename_wv = 'word2vec_model.sav'
+    #filename_wv = '../word2vec_model.sav'
     wv_model = pickle.load(open(filename_wv, 'rb'))
     cleaned_query_vectorized = build_wv_query(query_to_test, wv_model)
 
     # load svm model
-    filename_svm = "../svm_wv_model.sav"
+    filename_svm = "svm_wv_model.sav"
+    #filename_svm = "../svm_wv_model.sav"
     svm_model = pickle.load(open(filename_svm, 'rb'))
-    probas = svm_model.predict_proba(cleaned_query_vectorized[0])
+    probas = svm_model.predict_proba(cleaned_query_vectorized)
     index = np.argmax(probas)
     probability = probas[0][index]
     # prediction with proba
 
     predictions = {"intent": str(index), "probability": "%.2f" % probability}
-    return json.loads(predictions)
+    return json.dumps(predictions)
 
 
 if __name__ == "__main__":

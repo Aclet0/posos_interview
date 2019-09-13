@@ -7,11 +7,13 @@ boto3==1.9.225
 botocore==1.12.225
 certifi==2019.6.16
 chardet==3.0.4
+Click==7.0
 cycler==0.10.0
 decorator==4.4.0
 defusedxml==0.6.0
 docutils==0.15.2
 entrypoints==0.3
+Flask==1.1.1
 gensim==3.8.0
 idna==2.8
 imageio==2.5.0
@@ -19,6 +21,7 @@ ipykernel==5.1.2
 ipython==7.8.0
 ipython-genutils==0.2.0
 ipywidgets==7.5.1
+itsdangerous==1.1.0
 jedi==0.15.1
 Jinja2==2.10.1
 jmespath==0.9.4
@@ -70,4 +73,5 @@ traitlets==4.3.2
 urllib3==1.25.3
 wcwidth==0.1.7
 webencodings==0.5.1
+Werkzeug==0.15.6
 widgetsnbextension==3.5.1
