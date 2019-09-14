@@ -23,6 +23,6 @@ WORKDIR /home/appuser
 EXPOSE 5000
 
 RUN pip install --user -r requirements.txt
-CMD ["python", "main0.py"]
+CMD ["python", "main.py"]
 
 
