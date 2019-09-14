@@ -6,12 +6,6 @@ import json
 
 app=Flask(__name__)
 
-@app.route("/")
-def home():
-	#return "hello world"
-	print("hello world")
-	return "hellllo Test"
-
 
 def build_wv_query(query, wv_model):
     prepared_query = get_prepared_query(query)
@@ -40,29 +34,30 @@ def get_vector_list(sentence_splited_list, w2v_model):
             vector_list.append(mean_vect)
     return vector_list, empty_vector_list
 
-@app.route("/test")
+@app.route("/intent")
 def home2():
-    #here i need to get the sentence
-    print("home")
     query_to_test = request.args.get("query", {})
     # pretraitement on sentence and convert into vect
     filename_wv = '/home/appuser/models/word2vec_model.sav'
-    # filename_wv = '/Users/antoine/Documents/Tests/interview/Posos/posos_interview/models/word2vec_model.sav'
-    # filename_wv = 'models/word2vec_model.sav'
-    #filename_wv = '../word2vec_model.sav'
-    wv_model = pickle.load(open(filename_wv, 'rb'))
+    #filename_wv = '/Users/antoine/Documents/Tests/interview/Posos/posos_interview/models/word2vec_model.sav'
+    try:
+        wv_model = pickle.load(open(filename_wv, 'rb'))
+    except:
+        return "Missing word2vect vectorizer - Training needed"
+
     cleaned_query_vectorized = build_wv_query(query_to_test, wv_model)
 
     # load svm model
     filename_svm = "/home/appuser/models/svm_wv_model.sav"
-    # filename_svm = "/Users/antoine/Documents/Tests/interview/Posos/posos_interview/models/svm_wv_model.sav"
-    #filename_svm = "models/svm_wv_model.sav"
-    #filename_svm = "../svm_wv_model.sav"
-    svm_model = pickle.load(open(filename_svm, 'rb'))
+    #filename_svm = "/Users/antoine/Documents/Tests/interview/Posos/posos_interview/models/svm_wv_model.sav"
+    try:
+        svm_model = pickle.load(open(filename_svm, 'rb'))
+    except:
+        return "Missing SVM model - Training needed"
+    # predictions with probabilities
     probas = svm_model.predict_proba(cleaned_query_vectorized)
     index = np.argmax(probas)
     probability = probas[0][index]
-    # prediction with proba
 
     predictions = {"intent": str(index), "probability": "%.2f" % probability}
     return json.dumps(predictions)
