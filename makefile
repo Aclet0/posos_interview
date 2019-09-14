@@ -1,12 +1,13 @@
 
-.PHONY:learn
-learn:
+.PHONY:train
+train:
 	docker build -f trainer.Dockerfile -t train .
-	docker run -p 8888:8888 -v ~/models:/appuser/models train
+	docker run -p 8888:8888 -v models:/home/appuser/models train
 
-.PHONY:learn
-	docker build -f api.Dockerfile -t api
-	docker run -p 5000:5000 -v ~/models:/appuser/models:ro api 
+.PHONY:api
+api:
+	docker build -f api.Dockerfile -t api .
+	docker run -p 4002:5000 -v models:/home/appuser/models:ro api 
 
 .PHONY:test
 test:
