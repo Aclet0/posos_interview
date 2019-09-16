@@ -9,7 +9,3 @@ api:
 	docker build -f api.Dockerfile -t api .
 	docker run -p 4002:5000 -v models:/home/appuser/models:ro api 
 
-.PHONY:test
-test:
-	echo "AA"
-

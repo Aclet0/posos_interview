@@ -4,8 +4,6 @@ FROM python:3.7
 # Define uid and gid arguments (passed during docker build command)
 ARG user=appuser
 ARG group=appuser
-#ARG uid
-#ARG gid
 
 # Add in the container the group and the user you filled in
 # https://docs.docker.com/develop/develop-images/dockerfile_best-practices/
@@ -33,9 +31,6 @@ WORKDIR /home/appuser
 RUN pip3 install --user jupyterlab
 # Install python packages
 RUN pip3 install --user -r requirements.txt
-#RUN pip3 install --user sklearn
-#RUN pip3 install --user "dask[complete]"
-#RUN pip3 install --user annoy
 
 # When the container launches, launches a jupyterlab instance
 CMD ["jupyter", "lab", "--no-browser", "--notebook-dir='/home/appuser'", "--ip=0.0.0.0", "--log-level='INFO'"]
