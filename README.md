@@ -38,4 +38,5 @@ makefile file is containing 2 rules:
 - train: which create a docker image using trainer.Dockerfile and then run a container with volume ./models where jupyter notebook will be running
 - api: which create a docker image using api.Dockerfile and then run a container with volume ./models where a Flask app will be running and serving our models
 
+Important point before calling train rule from makefile data has to be present in project in folder 'data'
 
